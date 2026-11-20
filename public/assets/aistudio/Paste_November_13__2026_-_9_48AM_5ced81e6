@@ -1,0 +1,729 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 10-09-2026 a las 17:49:56
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `a.b.a.`
+--
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_admin` (IN `c_id_administrador` INT(11), IN `c_id_usuario` INT(11), IN `c_nivel_acceso` VARCHAR(50))   INSERT INTO administrador VALUES(c_id_administrador,
+                                 c_id_usuario,
+                                 C_nivel_acceso)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_estudiante` (IN `c_id_estudiante` INT(11), IN `c_id_usuario` INT(11), IN `c_id_grado` INT(11), IN `c_codigo_estudiantil` VARCHAR(20))   INSERT INTO estudiante VALUES(c_id_estudiante,
+                                  c_id_usuario,
+                                  c_id_grado,
+                                  c_codigo_estudiantil)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_evaluacion` (IN `c_id_evaluacion` INT(11), IN `c_titulo` VARCHAR(150), IN `c_instrucciones` TEXT, IN `c_id_saber` INT(11))   INSERT INTO evaluacion VALUES(c_id_evaluacion,
+                                  c_titulo,
+                                  c_instrucciones,
+                                  c_id_saber)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_grado` (IN `c_id_grado` INT(11), IN `c_nombre_grado` VARCHAR(50), IN `c_seccion` VARCHAR(20))   INSERT INTO grado VALUES(c_id_grado,
+                             c_nombre_grado,
+                             c_seccion)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_profesor` (IN `c_id_profesor` INT(11), IN `c_id_usuario` INT(11), IN `c_id_grado` INT(11), IN `c_especialidad` VARCHAR(100))   INSERT INTO profesor VALUES(c_id_profesor,
+                                c_id_usuario,
+                                c_id_grado,
+                                c_especialidad)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_saber` (IN `c_id_saber` INT(11), IN `c_titulo` VARCHAR(100), IN `c_descripcion` TEXT, IN `c_id_grado` INT(11))   INSERT into saber VALUES(c_id_saber,
+                             c_titulo,
+                             c_descripcion,
+                             c_id_grado)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_video` (IN `c_id_video` INT(11), IN `c_titulo` VARCHAR(150), IN `c_url_video` VARCHAR(255), IN `c_duracion_segundos` INT(11), IN `c_id_saber` INT(11))   INSERT INTO video VALUES(c_id_video,
+                             c_titulo,
+                             c_url_video,
+                             c_duracion_segundos,
+                             c_id_saber)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_puntaje` (IN `c_id_puntaje` INT(11), IN `c_id_estudiante` INT(11), IN `c_id_evaluacion` INT(11), IN `c_calificacion` DECIMAL(5,2), IN `fecha_realizacion` TIMESTAMP)   INSERT INTO puntaje VALUES(c_id_estudiante,
+                               c_id_usuario,
+                               c_id_grado,
+                               c_calificacion,
+                               c_fecha_realizacion)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_respeusta_correcta` (IN `c_id_respuesta_correcta` INT(11), IN `c_id_respuesta` INT(11), IN `c_opcion_correcta` ENUM('A','B','C'), IN `c_explicacion` TEXT)   INSERT INTO respuesta_correcta VALUES (c_id_respuesta_correcta,
+                                           c_id_respuesta,
+                                           c_opcion_correcta,
+                                           c_explicacion)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_respuestas` (IN `c_id_respuesta` INT(11), IN `c_enunciado_pregunta` TEXT, IN `c_opcion_a` VARCHAR(255), IN `c_opcion_b` VARCHAR(255), IN `c_opcion_c` VARCHAR(255), IN `c_id_evaluacion` INT(11))   INSERT INTO respuestas VALUES (c_id_respuesta,
+                                   c_enunciado_pregunta,
+                                   c_opcion_a,
+                                   c_opcion_b,
+                                   c_opcion_c,
+                                   c_evaluacion)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_respuesta_incorrecta` (IN `c_id_respuesta_incorrecta` INT(11), IN `c_id_respuesta` INT(11), IN `c_opcion_incorrecta` ENUM('A','B','C'), IN `c_retroalimentacion` TEXT)   INSERT INTO respuesta_incorrecta VALUES(c_id_respuesta_incorrecta,
+                                            c_id_respuesta,
+                                            c_opcion_incorrecta,
+                                            c_retroalimentacion)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_rol` (IN `c_id_rol` INT(11), IN `c_nombre_rol` VARCHAR(50))   INSERT INTO rol VALUES (c_id_rol,
+                            c_nombre_roL)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_usuario` (IN `c_id_usuario` INT, IN `c_nombre` VARCHAR(100), IN `c_apellido` VARCHAR(100), IN `c_email` VARCHAR(150), IN `c_password_hash` VARCHAR(255))   BEGIN
+    INSERT INTO usuario VALUES(c_id_usuario,
+                               c_nombre,
+                               c_apellido,
+                               c_email,
+                               c_password_hash,
+                               c_id_rol);
+    SELECT * FROM usuario WHERE id_usuario=c_id_usuario;
+    END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `id_administrador` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `nivel_acceso` varchar(50) DEFAULT 'SuperAdmin'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `administrador`
+--
+
+INSERT INTO `administrador` (`id_administrador`, `id_usuario`, `nivel_acceso`) VALUES
+(1, 1, 'SuperAdmin'),
+(2, 2, 'Gerente General'),
+(3, 3, 'Gerente Ventas'),
+(4, 4, 'Admin Académico'),
+(5, 5, 'Admin Contenido'),
+(6, 6, 'Soporte Nivel 1'),
+(7, 7, 'Soporte Nivel 2'),
+(8, 8, 'Auditor UX'),
+(9, 9, 'Gestion Base Datos'),
+(10, 10, 'Consultor Externo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estudiante`
+--
+
+CREATE TABLE `estudiante` (
+  `id_estudiante` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_grado` int(11) NOT NULL,
+  `codigo_estudiantil` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estudiante`
+--
+
+INSERT INTO `estudiante` (`id_estudiante`, `id_usuario`, `id_grado`, `codigo_estudiantil`) VALUES
+(1, 6, 1, 'EST-2026-001'),
+(2, 7, 1, 'EST-2026-002'),
+(3, 8, 2, 'EST-2026-003'),
+(4, 9, 2, 'EST-2026-004'),
+(5, 10, 3, 'EST-2026-005'),
+(6, 1, 3, 'EST-2026-006'),
+(7, 2, 4, 'EST-2026-007'),
+(8, 3, 4, 'EST-2026-008'),
+(9, 4, 5, 'EST-2026-009'),
+(10, 5, 5, 'EST-2026-010');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evaluacion`
+--
+
+CREATE TABLE `evaluacion` (
+  `id_evaluacion` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `instrucciones` text DEFAULT NULL,
+  `id_saber` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `evaluacion`
+--
+
+INSERT INTO `evaluacion` (`id_evaluacion`, `titulo`, `instrucciones`, `id_saber`) VALUES
+(1, 'Evaluación de Conteo', 'Selecciona la respuesta correcta con la cantidad', 1),
+(2, 'Evaluación de Vocales', 'Identifica la vocal por la que inicia la imagen', 2),
+(3, 'Evaluación de Colores', 'Selecciona el color correcto', 3),
+(4, 'Evaluación de Figuras', 'Identifica la figura geométrica', 4),
+(5, 'Evaluación de Sumas', 'Resuelve las sumas simples', 5),
+(6, 'Evaluación de Abecedario', 'Encuentra la letra que falta', 6),
+(7, 'Evaluación de Restas', 'Resuelve las restas', 7),
+(8, 'Evaluación de Sílabas', 'Completa la palabra con la sílaba correcta', 8),
+(9, 'Evaluación de Animales', 'Selecciona el animal correcto', 9),
+(10, 'Evaluación del Reloj', 'Indica la hora mostrada', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `grado`
+--
+
+CREATE TABLE `grado` (
+  `id_grado` int(11) NOT NULL,
+  `nombre_grado` varchar(50) NOT NULL,
+  `seccion` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `grado`
+--
+
+INSERT INTO `grado` (`id_grado`, `nombre_grado`, `seccion`) VALUES
+(1, 'Transición A', 'Mañana'),
+(2, 'Transición B', 'Tarde'),
+(3, 'Primero 101', 'Mañana'),
+(4, 'Primero 102', 'Tarde'),
+(5, 'Segundo 201', 'Mañana'),
+(6, 'Segundo 202', 'Tarde'),
+(7, 'Tercero 301', 'Mañana'),
+(8, 'Tercero 302', 'Tarde'),
+(9, 'Cuarto 401', 'Mañana'),
+(10, 'Quinto 501', 'Mañana');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesor`
+--
+
+CREATE TABLE `profesor` (
+  `id_profesor` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_grado` int(11) NOT NULL,
+  `especialidad` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `profesor`
+--
+
+INSERT INTO `profesor` (`id_profesor`, `id_usuario`, `id_grado`, `especialidad`) VALUES
+(1, 4, 1, 'Pedagogía Infantil'),
+(2, 5, 2, 'Desarrollo Cognitivo'),
+(3, 1, 3, 'Pensamiento Lógico'),
+(4, 2, 4, 'Educación Especial'),
+(5, 3, 5, 'Expresión Artística'),
+(6, 6, 6, 'Lógica Matemática'),
+(7, 7, 7, 'Lenguaje y Lectura'),
+(8, 8, 8, 'Lectoescritura'),
+(9, 9, 9, 'Ciencias Básicas'),
+(10, 10, 10, 'Lógica Computacional');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `puntaje`
+--
+
+CREATE TABLE `puntaje` (
+  `id_puntaje` int(11) NOT NULL,
+  `id_estudiante` int(11) NOT NULL,
+  `id_evaluacion` int(11) NOT NULL,
+  `calificacion` decimal(5,2) NOT NULL,
+  `fecha_realizacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `puntaje`
+--
+
+INSERT INTO `puntaje` (`id_puntaje`, `id_estudiante`, `id_evaluacion`, `calificacion`, `fecha_realizacion`) VALUES
+(1, 1, 1, 5.00, '2026-08-01 13:30:00'),
+(2, 2, 1, 4.50, '2026-08-01 13:35:00'),
+(3, 3, 3, 5.00, '2026-08-02 14:00:00'),
+(4, 4, 3, 3.80, '2026-08-02 14:10:00'),
+(5, 5, 5, 4.00, '2026-08-03 15:15:00'),
+(6, 6, 5, 5.00, '2026-08-03 15:20:00'),
+(7, 7, 7, 4.20, '2026-08-04 16:00:00'),
+(8, 8, 7, 3.50, '2026-08-04 16:12:00'),
+(9, 9, 9, 5.00, '2026-08-05 13:45:00'),
+(10, 10, 9, 4.80, '2026-08-05 13:50:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuestas`
+--
+
+CREATE TABLE `respuestas` (
+  `id_respuesta` int(11) NOT NULL,
+  `enunciado_pregunta` text NOT NULL,
+  `opcion_a` varchar(255) NOT NULL,
+  `opcion_b` varchar(255) NOT NULL,
+  `opcion_c` varchar(255) NOT NULL,
+  `id_evaluacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuestas`
+--
+
+INSERT INTO `respuestas` (`id_respuesta`, `enunciado_pregunta`, `opcion_a`, `opcion_b`, `opcion_c`, `id_evaluacion`) VALUES
+(1, '¿Cuántas manzanas hay aquí: 🍎🍎🍎?', '2', '3', '5', 1),
+(2, '¿Con qué vocal empieza Avión?', 'A', 'E', 'O', 2),
+(3, '¿De qué color es un banano maduro?', 'Azul', 'Rojo', 'Amarillo', 3),
+(4, '¿Qué figura no tiene esquinas?', 'Cuadrado', 'Círculo', 'Triángulo', 4),
+(5, '¿Cuánto es 2 + 2?', '3', '4', '5', 5),
+(6, '¿Qué letra sigue después de la A?', 'C', 'B', 'D', 6),
+(7, '¿Cuánto es 5 - 2?', '3', '2', '4', 7),
+(8, 'Completa: ___sa (para decir Mesa)', 'Ma', 'Me', 'Mo', 8),
+(9, '¿Cuál de estos es un animal doméstico?', 'Tigre', 'Perro', 'Tiburón', 9),
+(10, 'Si el minutero está en el 12 y la hora en el 3, ¿qué hora es?', '3:00', '12:00', '6:00', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuesta_correcta`
+--
+
+CREATE TABLE `respuesta_correcta` (
+  `id_respuesta_correcta` int(11) NOT NULL,
+  `id_respuesta` int(11) NOT NULL,
+  `opcion_correcta` enum('A','B','C') NOT NULL,
+  `explicacion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta_correcta`
+--
+
+INSERT INTO `respuesta_correcta` (`id_respuesta_correcta`, `id_respuesta`, `opcion_correcta`, `explicacion`) VALUES
+(1, 1, 'B', 'Hay 3 manzanas en la imagen.'),
+(2, 2, 'A', 'La palabra Avión inicia con la letra A.'),
+(3, 3, 'C', 'El banano es de color amarillo.'),
+(4, 4, 'B', 'El círculo es redondo y no tiene esquinas.'),
+(5, 5, 'B', '2 más 2 es igual a 4.'),
+(6, 6, 'B', 'La segunda letra del abecedario es la B.'),
+(7, 7, 'A', 'Si a 5 le quitas 2 quedan 3.'),
+(8, 8, 'B', 'Con \"Me\" se forma la palabra Mesa.'),
+(9, 9, 'B', 'El perro vive con las personas en el hogar.'),
+(10, 10, 'A', 'El reloj indica las 3 en punto.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuesta_incorrecta`
+--
+
+CREATE TABLE `respuesta_incorrecta` (
+  `id_respuesta_incorrecta` int(11) NOT NULL,
+  `id_respuesta` int(11) NOT NULL,
+  `opcion_incorrecta` enum('A','B','C') NOT NULL,
+  `retroalimentacion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta_incorrecta`
+--
+
+INSERT INTO `respuesta_incorrecta` (`id_respuesta_incorrecta`, `id_respuesta`, `opcion_incorrecta`, `retroalimentacion`) VALUES
+(1, 1, 'A', 'Vuelve a contar, hay más de 2 manzanas.'),
+(2, 1, 'C', 'Te pasaste, cuenta despacio cada manzana.'),
+(3, 2, 'B', 'Recuerda que Avión empieza con A, no con E.'),
+(4, 3, 'A', 'El azul es como el cielo, prueba con otro color.'),
+(5, 4, 'A', 'El cuadrado tiene 4 esquinas.'),
+(6, 5, 'A', 'Revisa sumando con tus dedos.'),
+(7, 6, 'A', 'La C es la tercera letra, busca la segunda.'),
+(8, 7, 'B', 'Cuenta de nuevo restando dos unidades.'),
+(9, 8, 'A', 'Masa no corresponde con lo pedido, usa Me.'),
+(10, 9, 'A', 'El tigre es un animal salvaje.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `id_rol` int(11) NOT NULL,
+  `nombre_rol` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
+(1, 'Administrador'),
+(3, 'Estudiante'),
+(2, 'Profesor');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `saber`
+--
+
+CREATE TABLE `saber` (
+  `id_saber` int(11) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `id_grado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `saber`
+--
+
+INSERT INTO `saber` (`id_saber`, `titulo`, `descripcion`, `id_grado`) VALUES
+(1, 'Saber Contar 1 al 10', 'Reconocimiento numérico básico', 1),
+(2, 'Saber Las Vocales', 'Identificación de vocales a, e, i, o, u', 1),
+(3, 'Saber Colores Primarios', 'Identificación de amarillo, azul y rojo', 2),
+(4, 'Saber Figuras Geométricas', 'Círculo, cuadrado y triángulo', 2),
+(5, 'Saber Sumas Básicas', 'Sumas sencillas de un solo dígito', 3),
+(6, 'Saber El Abecedario', 'Reconocimiento de consonantes', 3),
+(7, 'Saber Restas sencillas', 'Restas de un dígito', 4),
+(8, 'Saber Silabas', 'Formación de sílabas directas', 4),
+(9, 'Saber Animales', 'Clasificación de animales domésticos', 5),
+(10, 'Saber Las Horas', 'Lectura de reloj análogo', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `id_rol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `password_hash`, `id_rol`) VALUES
+(1, 'Aaron', 'Paez', 'admin@aba.com', '$2y$10$hash_admin_aaron', 1),
+(2, 'Savir', 'Diaz', 'savir.diaz@aba.com', '$2y$10$hash_admin_savir', 1),
+(3, 'Sebastian', 'Lozano', 'sebastian.lozano@aba.com', '$2y$10$hash_admin_sebas', 1),
+(4, 'Carlos', 'Mendoza', 'cmendoza@aba.edu.co', '$2y$10$hash_prof_carlos', 2),
+(5, 'Martha', 'Gomez', 'mgomez@aba.edu.co', '$2y$10$hash_prof_martha', 2),
+(6, 'Mateo', 'Ramirez', 'mateo.r@estudiante.com', '$2y$10$hash_est_mateo', 3),
+(7, 'Sofia', 'Torres', 'sofia.t@estudiante.com', '$2y$10$hash_est_sofia', 3),
+(8, 'Lucas', 'Rios', 'lucas.r@estudiante.com', '$2y$10$hash_est_lucas', 3),
+(9, 'Camila', 'Vargas', 'camila.v@estudiante.com', '$2y$10$hash_est_camila', 3),
+(10, 'Daniel', 'Castro', 'daniel.c@estudiante.com', '$2y$10$hash_est_daniel', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `video`
+--
+
+CREATE TABLE `video` (
+  `id_video` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `url_video` varchar(255) NOT NULL,
+  `duracion_segundos` int(11) DEFAULT NULL,
+  `id_saber` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `video`
+--
+
+INSERT INTO `video` (`id_video`, `titulo`, `url_video`, `duracion_segundos`, `id_saber`) VALUES
+(1, 'Aprendiendo los números del 1 al 10', 'https://aba.edu.co/videos/num1.mp4', 180, 1),
+(2, 'Canción de las vocales', 'https://aba.edu.co/videos/vocales.mp4', 210, 2),
+(3, 'Los colores en la naturaleza', 'https://aba.edu.co/videos/colores.mp4', 150, 3),
+(4, 'Conociendo el círculo y cuadrado', 'https://aba.edu.co/videos/figuras.mp4', 200, 4),
+(5, 'Cómo sumar usando manzanas', 'https://aba.edu.co/videos/sumas.mp4', 300, 5),
+(6, 'El abecedario divertido', 'https://aba.edu.co/videos/abc.mp4', 240, 6),
+(7, 'Restando juguetes', 'https://aba.edu.co/videos/restas.mp4', 220, 7),
+(8, 'Combinando Ma-Me-Mi-Mo-Mu', 'https://aba.edu.co/videos/silabas.mp4', 190, 8),
+(9, 'Mundo animal interactivo', 'https://aba.edu.co/videos/animales.mp4', 260, 9),
+(10, '¿Qué hora es en el reloj?', 'https://aba.edu.co/videos/reloj.mp4', 280, 10);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`id_administrador`),
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `estudiante`
+--
+ALTER TABLE `estudiante`
+  ADD PRIMARY KEY (`id_estudiante`),
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`),
+  ADD UNIQUE KEY `codigo_estudiantil` (`codigo_estudiantil`),
+  ADD KEY `id_grado` (`id_grado`);
+
+--
+-- Indices de la tabla `evaluacion`
+--
+ALTER TABLE `evaluacion`
+  ADD PRIMARY KEY (`id_evaluacion`),
+  ADD KEY `id_saber` (`id_saber`);
+
+--
+-- Indices de la tabla `grado`
+--
+ALTER TABLE `grado`
+  ADD PRIMARY KEY (`id_grado`);
+
+--
+-- Indices de la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  ADD PRIMARY KEY (`id_profesor`),
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_grado` (`id_grado`);
+
+--
+-- Indices de la tabla `puntaje`
+--
+ALTER TABLE `puntaje`
+  ADD PRIMARY KEY (`id_puntaje`),
+  ADD KEY `id_estudiante` (`id_estudiante`),
+  ADD KEY `id_evaluacion` (`id_evaluacion`);
+
+--
+-- Indices de la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  ADD PRIMARY KEY (`id_respuesta`),
+  ADD KEY `id_evaluacion` (`id_evaluacion`);
+
+--
+-- Indices de la tabla `respuesta_correcta`
+--
+ALTER TABLE `respuesta_correcta`
+  ADD PRIMARY KEY (`id_respuesta_correcta`),
+  ADD UNIQUE KEY `id_respuesta` (`id_respuesta`);
+
+--
+-- Indices de la tabla `respuesta_incorrecta`
+--
+ALTER TABLE `respuesta_incorrecta`
+  ADD PRIMARY KEY (`id_respuesta_incorrecta`),
+  ADD KEY `id_respuesta` (`id_respuesta`);
+
+--
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`id_rol`),
+  ADD UNIQUE KEY `nombre_rol` (`nombre_rol`);
+
+--
+-- Indices de la tabla `saber`
+--
+ALTER TABLE `saber`
+  ADD PRIMARY KEY (`id_saber`),
+  ADD KEY `id_grado` (`id_grado`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `id_rol` (`id_rol`);
+
+--
+-- Indices de la tabla `video`
+--
+ALTER TABLE `video`
+  ADD PRIMARY KEY (`id_video`),
+  ADD KEY `id_saber` (`id_saber`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `id_administrador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `estudiante`
+--
+ALTER TABLE `estudiante`
+  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `evaluacion`
+--
+ALTER TABLE `evaluacion`
+  MODIFY `id_evaluacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `grado`
+--
+ALTER TABLE `grado`
+  MODIFY `id_grado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  MODIFY `id_profesor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `puntaje`
+--
+ALTER TABLE `puntaje`
+  MODIFY `id_puntaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `respuesta_correcta`
+--
+ALTER TABLE `respuesta_correcta`
+  MODIFY `id_respuesta_correcta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `respuesta_incorrecta`
+--
+ALTER TABLE `respuesta_incorrecta`
+  MODIFY `id_respuesta_incorrecta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `saber`
+--
+ALTER TABLE `saber`
+  MODIFY `id_saber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `video`
+--
+ALTER TABLE `video`
+  MODIFY `id_video` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD CONSTRAINT `administrador_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `estudiante`
+--
+ALTER TABLE `estudiante`
+  ADD CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  ADD CONSTRAINT `estudiante_ibfk_2` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `evaluacion`
+--
+ALTER TABLE `evaluacion`
+  ADD CONSTRAINT `evaluacion_ibfk_1` FOREIGN KEY (`id_saber`) REFERENCES `saber` (`id_saber`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  ADD CONSTRAINT `profesor_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  ADD CONSTRAINT `profesor_ibfk_2` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `puntaje`
+--
+ALTER TABLE `puntaje`
+  ADD CONSTRAINT `puntaje_ibfk_1` FOREIGN KEY (`id_estudiante`) REFERENCES `estudiante` (`id_estudiante`) ON DELETE CASCADE,
+  ADD CONSTRAINT `puntaje_ibfk_2` FOREIGN KEY (`id_evaluacion`) REFERENCES `evaluacion` (`id_evaluacion`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`id_evaluacion`) REFERENCES `evaluacion` (`id_evaluacion`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `respuesta_correcta`
+--
+ALTER TABLE `respuesta_correcta`
+  ADD CONSTRAINT `respuesta_correcta_ibfk_1` FOREIGN KEY (`id_respuesta`) REFERENCES `respuestas` (`id_respuesta`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `respuesta_incorrecta`
+--
+ALTER TABLE `respuesta_incorrecta`
+  ADD CONSTRAINT `respuesta_incorrecta_ibfk_1` FOREIGN KEY (`id_respuesta`) REFERENCES `respuestas` (`id_respuesta`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `saber`
+--
+ALTER TABLE `saber`
+  ADD CONSTRAINT `saber_ibfk_1` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `video`
+--
+ALTER TABLE `video`
+  ADD CONSTRAINT `video_ibfk_1` FOREIGN KEY (`id_saber`) REFERENCES `saber` (`id_saber`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
