@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --aba-surface: #f7f9fb;
+    --aba-surface-card: #ffffff;
+    --aba-surface-subtle: #f2f4f6;
+    --aba-border: #e2e8f0;
+    --aba-primary: #1e40af;
+    --aba-primary-deep: #00288e;
+    --aba-secondary: #4f46e5;
+    --aba-tertiary: #10b981;
+    --aba-warning: #f59e0b;
+    --aba-error: #ba1a1a;
+    --aba-text: #191c1e;
+    --aba-text-muted: #444653;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--aba-surface);
+    color: var(--aba-text);
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-mono-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.card-elevation {
+  box-shadow: 0 2px 8px -2px rgba(30, 64, 175, 0.04), 0 1px 4px -1px rgba(15, 23, 42, 0.03);
+}
+
+.interactive-elevation {
+  box-shadow: 0 8px 24px -4px rgba(30, 64, 175, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+}
+
+/* Fondos personalizados desbloqueables */
+.aba-shell[data-aba-bg="fondo_papel_cuadricula"] {
+  background-color: #f8fafc;
+  background-image:
+    linear-gradient(to right, rgba(30, 64, 175, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.aba-shell[data-aba-bg="fondo_brisa_botanica"] {
+  background-color: #f0fdf4;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.12) 0%, transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(5, 150, 105, 0.1) 0%, transparent 45%);
+}
+
+.aba-shell[data-aba-bg="fondo_cielo_aurora"] {
+  background-color: #eff6ff;
+  background-image:
+    linear-gradient(135deg, #eff6ff 0%, #eef2ff 50%, #f8fafc 100%);
+}
+
+/* Estilos visuales desbloqueables */
+.aba-shell[data-aba-style="estilo_esmeralda"] {
+  --aba-primary: #047857;
+  --aba-secondary: #059669;
+  --aba-header-bg: #ecfdf5;
+  --aba-header-border: #a7f3d0;
+}
+
+.aba-shell[data-aba-style="estilo_oceano"] {
+  --aba-primary: #0369a1;
+  --aba-secondary: #0284c7;
+  --aba-header-bg: #f0f9ff;
+  --aba-header-border: #bae6fd;
+}
+
+.aba-shell[data-aba-style="estilo_indigo_real"] {
+  --aba-primary: #3730a3;
+  --aba-secondary: #d97706;
+  --aba-header-bg: #eef2ff;
+  --aba-header-border: #c7d2fe;
+}
+
+.aba-shell[data-aba-style] header.aba-header {
+  background-color: var(--aba-header-bg, #ffffff);
+  border-bottom-color: var(--aba-header-border, #e2e8f0);
+}
+
+.aba-shell[data-aba-style] .aba-brand {
+  color: var(--aba-primary);
+}
+
+.aba-shell[data-aba-style] .aba-nav-active {
+  color: var(--aba-primary);
+  border-bottom-color: var(--aba-secondary);
+}
+
+.aba-shell[data-aba-style] .aba-primary-btn {
+  background-color: var(--aba-primary);
+}
+
